@@ -21,7 +21,7 @@ export function Aktuelles() {
               <Reveal key={n.t} delay={i * 0.04} className="group grid cursor-pointer gap-6 py-8 md:grid-cols-12 md:items-center">
                 <div className="num text-[13px] text-muted md:col-span-2">{n.d}</div>
                 <div className="md:col-span-7"><div className="flex items-center gap-3"><Pill tone={n.c === 'Padel' ? 'green' : 'neutral'}>{n.c}</Pill></div><h2 className="mt-3 text-[24px] font-semibold tracking-[-0.02em] transition-colors group-hover:text-green md:text-[28px]">{n.t}</h2><p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">{n.s}</p></div>
-                <div className="md:col-span-3"><Photo variant={n.v} className="aspect-[16/10] rounded-[14px]" hideCaption /></div>
+                <div className="md:col-span-3"><Photo variant={n.v} className="aspect-[16/10] rounded-[14px]" /></div>
               </Reveal>
             ))}
           </div>

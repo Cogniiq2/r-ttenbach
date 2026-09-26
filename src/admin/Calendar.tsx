@@ -88,7 +88,7 @@ export function Calendar() {
     window.setTimeout(() => {
       setBlocks((b) => [...b, { id: String(Date.now()), day: range.day, start: range.start, end: range.end, kind: mode === 'block' ? 'blocked' : 'notice', title: mode === 'block' ? 'Court gesperrt' : reason, sub: mode === 'block' ? reason : 'Hinweis aktiv' }])
       setSaving(false); setRange(null)
-      toast(mode === 'block' ? 'Court gesperrt' : 'Hinweis aktualisiert', `${dayNames[range.day]} · ${fmt(range.start)}–${fmt(range.end)}`)
+      toast('Zeitraum aktualisiert', `${mode === 'block' ? 'Court gesperrt' : 'Hinweis aktiv'} · ${dayNames[range.day]} ${fmt(range.start)}–${fmt(range.end)}`)
     }, 900)
   }
 
@@ -144,10 +144,12 @@ export function Calendar() {
                       <div className="num truncate opacity-80">{fmt(b.start)}–{fmt(b.end)}{b.sub ? ` · ${b.sub}` : ''}</div>
                     </motion.button>
                   ))}
+                  {range && range.day === day && !drag && <div className="pointer-events-none absolute left-1 right-1 z-30 rounded-[8px] bg-green/15 shadow-[inset_0_0_0_2px_var(--color-green)]" style={{ top: (range.start - START) * ROW, height: (range.end - range.start) * ROW }} />}
                   <AnimatePresence>
                     {drag && drag.day === day && (
-                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pointer-events-none absolute left-1 right-1 z-30 rounded-[8px] border-2 border-green bg-green/10 px-2 py-1 text-[12px] font-medium text-green" style={{ top: (Math.min(drag.a, drag.b) - START) * ROW, height: Math.abs(drag.b - drag.a) * ROW }}>
-                        {fmt(Math.min(drag.a, drag.b))}–{fmt(Math.max(drag.a, drag.b))}
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="pointer-events-none absolute left-1 right-1 z-30 overflow-hidden rounded-[8px] shadow-[inset_0_0_0_2px_var(--color-green)]" style={{ top: (Math.min(drag.a, drag.b) - START) * ROW, height: Math.abs(drag.b - drag.a) * ROW }}>
+                        {Array.from({ length: Math.round(Math.abs(drag.b - drag.a) * 2) }).map((_, i) => <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.25, delay: i * 0.03 }} className="border-b border-green/20 bg-green/15" style={{ height: ROW / 2 }} />)}
+                        <span className="num absolute left-2 top-1.5 text-[12px] font-semibold text-green-deep">{fmt(Math.min(drag.a, drag.b))}–{fmt(Math.max(drag.a, drag.b))}</span>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -184,14 +186,14 @@ export function Calendar() {
         {range && (
           <div className="p-6 md:p-8">
             <div className="eyebrow">Zeitraum verwalten</div>
-            <div className="mt-2 text-[24px] font-semibold tracking-[-0.02em]">{['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'][range.day]}</div>
-            <div className="num text-[17px] text-muted">{fmt(range.start)}–{fmt(range.end)} · Padel Court 01</div>
+            <div className="num mt-2 text-[30px] font-semibold leading-none tracking-[-0.03em]">{fmt(range.start)} – {fmt(range.end)}</div>
+            <div className="mt-2 text-[15px] text-muted">{['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'][range.day]}, {dayNums[range.day]}. September · Padel Court 01</div>
             <div className="mt-6">
               <div className="mb-1.5 text-[13px] font-medium">Grund</div>
               <div className="flex flex-wrap gap-1.5">{['Mannschaftsspiel', 'Jugendturnier', 'Wartung', 'Vereinsevent'].map((r) => <button key={r} onClick={() => setReason(r)} className={cn('pressable h-9 rounded-full border px-3.5 text-[13.5px] font-medium', reason === r ? 'border-ink bg-ink text-white' : 'border-line-2 bg-white hover:border-ink/40')}>{r}</button>)}</div>
             </div>
             <div className="mt-6 space-y-2">
-              {([['block', 'Court vollständig sperren', 'Keine Buchungen im Zeitraum möglich.'], ['notice', 'Buchungen erlauben + Hinweis anzeigen', 'Spieler müssen den Hinweis vor der Buchung bestätigen.']] as const).map(([m, title, sub]) => (
+              {([['block', 'Court sperren', 'Keine Buchungen im Zeitraum möglich.'], ['notice', 'Buchungen erlauben · Hinweis anzeigen', 'Spieler bestätigen den Hinweis vor der Buchung.']] as const).map(([m, title, sub]) => (
                 <button key={m} onClick={() => setMode(m)} className={cn('pressable flex w-full items-start gap-3 rounded-[12px] border p-4 text-left transition-colors', mode === m ? 'border-green bg-green-soft/50' : 'border-line bg-white hover:border-ink/30')}>
                   <span className={cn('mt-0.5 grid size-5 shrink-0 place-items-center rounded-full border-2', mode === m ? 'border-green' : 'border-line-2')}>{mode === m && <motion.span layoutId="mode-dot" className="size-2.5 rounded-full bg-green" transition={t.spring} />}</span>
                   <span><span className="block text-[14.5px] font-medium">{title}</span><span className="block text-[13px] text-muted">{sub}</span></span>

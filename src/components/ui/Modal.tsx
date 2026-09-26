@@ -19,7 +19,7 @@ export function Modal({ open, onClose, children, className, side }: { open: bool
     <AnimatePresence>
       {open && (
         <motion.div key="backdrop" className={cn('fixed inset-0 z-[90] flex', side ? 'justify-end' : 'items-end justify-center sm:items-center')} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22 }}>
-          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[3px]" onClick={onClose} />
+          <div className="absolute inset-0 bg-ink/30 backdrop-blur-[2px]" onClick={onClose} />
           <motion.div
             role="dialog"
             aria-modal

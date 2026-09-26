@@ -17,7 +17,7 @@ export function Tennis() {
   return (
     <Page>
       <PageHero eyebrow="Tennis" title="Tennis in Röttenbach." lede="Sechs Sandplätze, acht Mannschaften und ein Training, das bei den Kleinsten anfängt." variant="clay">
-        <div className="flex gap-3"><Button variant="light" size="lg" arrow to="/verein">Mitglied werden</Button><Button variant="outline-light" size="lg" to="/events">Mannschaftsspiele</Button></div>
+        <div className="flex flex-col gap-3 sm:flex-row"><Button variant="light" size="lg" arrow to="/verein" className="w-full sm:w-auto">Mitglied werden</Button><Button variant="outline-light" size="lg" to="/events" className="w-full sm:w-auto">Mannschaftsspiele</Button></div>
       </PageHero>
 
       <section className="section">

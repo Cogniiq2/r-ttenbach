@@ -3,11 +3,11 @@ import type { ReactNode } from 'react'
 import { Photo, type PhotoVariant } from '@/components/ui/Photo'
 import { EASE } from '@/lib/motion'
 
-export function PageHero({ eyebrow, title, lede, variant = 'tennis', children, caption }: { eyebrow: string; title: ReactNode; lede?: string; variant?: PhotoVariant; children?: ReactNode; caption?: string }) {
+export function PageHero({ eyebrow, title, lede, variant = 'tennis', children }: { eyebrow: string; title: ReactNode; lede?: string; variant?: PhotoVariant; children?: ReactNode }) {
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white">
       <motion.div initial={{ scale: 1.035 }} animate={{ scale: 1 }} transition={{ duration: 1.6, ease: EASE }} className="absolute inset-0">
-        <Photo variant={variant} className="h-full w-full" zoom={false} caption={caption} hideCaption />
+        <Photo variant={variant} className="h-full w-full" zoom={false} />
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-ink/20" />
       <div className="container-x relative flex min-h-[62vh] flex-col justify-end pb-14 pt-40 md:min-h-[68vh] md:pb-20">

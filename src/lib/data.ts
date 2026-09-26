@@ -72,8 +72,8 @@ export function slotsFor(dayKey: string): Slot[] {
 export const players = [
   { initials: 'LP', name: 'Lazar Popovic', kind: 'member' as const },
   { initials: 'MM', name: 'Max Mustermann', kind: 'guest' as const },
-  { initials: 'JS', name: 'Jonas Schäfer', kind: 'member' as const },
-  { initials: 'TH', name: 'Tobias Herzog', kind: 'guest' as const },
+  { initials: 'JS', name: 'Jonas Schäfer', kind: 'guest' as const },
+  { initials: 'TH', name: 'Tobias Herzog', kind: 'member' as const },
 ]
 
 export type EventCategory = 'Tennis' | 'Padel' | 'Jugend' | 'Verein'

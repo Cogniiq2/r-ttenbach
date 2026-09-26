@@ -9,12 +9,12 @@ export function Padel() {
   return (
     <Page>
       <PageHero eyebrow="Padel" title="Padel wächst in Röttenbach." lede="Ein Court, unglaublich viel Nachfrage. Online buchen, Flutlicht automatisch, direkt spielen." variant="padel">
-        <div className="flex gap-3"><Button variant="light" size="lg" arrow to="/padel/buchen">Court buchen</Button><Button variant="outline-light" size="lg" to="/gutschein">Padel verschenken</Button></div>
+        <div className="flex flex-col gap-3 sm:flex-row"><Button variant="light" size="lg" arrow to="/padel/buchen" className="w-full sm:w-auto">Court buchen</Button><Button variant="outline-light" size="lg" to="/gutschein" className="w-full sm:w-auto">Padel verschenken</Button></div>
       </PageHero>
 
       <section className="section">
         <div className="container-wide grid items-center gap-12 lg:grid-cols-12">
-          <Reveal className="group lg:col-span-7"><Photo variant="padel" className="aspect-[4/3] rounded-[24px]" caption="Padel Court 01" /></Reveal>
+          <Reveal className="group lg:col-span-7"><Photo variant="padel" className="aspect-[4/3] rounded-[24px]" /></Reveal>
           <Reveal delay={0.1} className="lg:col-span-5">
             <div className="flex gap-2"><Pill tone="green" dot>Geöffnet</Pill><Pill tone="outline">Outdoor</Pill><Pill tone="outline">Flutlicht</Pill></div>
             <h2 className="display-md mt-5">Der Court.</h2>

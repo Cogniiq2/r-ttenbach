@@ -47,8 +47,8 @@ export function Verein() {
         <div className="container-wide">
           <Reveal className="max-w-xl"><div className="eyebrow">Anlage</div><h2 className="display-md mt-4">Lohmühlweg 11a.</h2></Reveal>
           <div className="mt-10 grid gap-4 md:grid-cols-12">
-            <Reveal className="group md:col-span-8"><Photo variant="aerial" className="aspect-[16/9] rounded-[22px]" caption="Anlage von oben" /></Reveal>
-            <Reveal delay={0.1} className="group md:col-span-4"><Photo variant="club" className="aspect-[16/9] rounded-[22px] md:aspect-auto md:h-full" caption="Clubhaus" /></Reveal>
+            <Reveal className="group md:col-span-8"><Photo variant="aerial" className="aspect-[16/9] rounded-[22px]" /></Reveal>
+            <Reveal delay={0.1} className="group md:col-span-4"><Photo variant="club" className="aspect-[16/9] rounded-[22px] md:aspect-auto md:h-full" /></Reveal>
           </div>
         </div>
       </section>

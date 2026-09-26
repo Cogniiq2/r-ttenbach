@@ -40,7 +40,10 @@ export function Members() {
       <Modal open={!!open} onClose={() => setOpen(null)} side>
         {open && (
           <div className="p-6 pt-14">
-            <div className="flex items-center gap-4"><Avatar initials={initials(open.name)} size="lg" /><div><div className="text-[22px] font-semibold tracking-[-0.02em]">{open.name}</div><div className="text-[13.5px] text-muted">{open.email}</div></div></div>
+            <div className="flex items-center gap-4"><Avatar initials={initials(open.name)} size="lg" /><div><div className="text-[24px] font-semibold tracking-[-0.025em]">{open.name}</div><div className="text-[13.5px] text-muted">{open.email}</div></div></div>
+            <div className="mt-6 grid grid-cols-3 divide-x divide-line rounded-[12px] bg-paper py-3 text-center">
+              {[['Seit', String(open.since)], ['Buchungen', String(open.bookings)], ['Status', open.status]].map(([k, v]) => <div key={k}><div className="num text-[18px] font-semibold leading-none">{v}</div><div className="mt-1 text-[11.5px] text-muted">{k}</div></div>)}
+            </div>
             <dl className="mt-6 divide-y divide-line border-y border-line text-[14px]">
               <div className="flex justify-between py-3"><dt className="text-muted">Mitglied seit</dt><dd className="num font-medium">{open.since}</dd></div>
               <div className="flex justify-between py-3"><dt className="text-muted">Status</dt><dd><Pill tone={statusTone(open.status)}>{open.status}</Pill></dd></div>
