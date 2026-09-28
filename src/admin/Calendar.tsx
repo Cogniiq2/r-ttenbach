@@ -29,27 +29,44 @@ const kindStyle: Record<Kind, string> = {
 }
 const kindLabel: Record<Kind, string> = { booking: 'Buchung', training: 'Training', match: 'Mannschaftsspiel', tournament: 'Jugendturnier', blocked: 'Court gesperrt', notice: 'Hinweis aktiv' }
 
+/* DEMO data. Durations vary on purpose: 60, 90, 120 and 150 minutes. */
 const initial: Block[] = [
   { id: '1', day: 0, start: 12.5, end: 14, kind: 'training', title: 'Training', sub: 'Jugend U14' },
-  { id: '2', day: 0, start: 18.5, end: 20, kind: 'booking', title: 'Anna Weber', sub: '+1', players: ['AW', 'LH'] },
-  { id: '3', day: 1, start: 9.5, end: 11, kind: 'booking', title: 'Tobias Herzog', sub: '+3', players: ['TH', 'JS', 'LP', 'MM'] },
-  { id: '4', day: 1, start: 17, end: 18.5, kind: 'booking', title: 'Lena Hofmann', sub: '+3', players: ['LH', 'AW'] },
+  { id: '2', day: 0, start: 18.5, end: 19.5, kind: 'booking', title: 'Anna Weber', sub: '+1 · 1 Std.', players: ['AW', 'LH'] },
+  { id: '3', day: 1, start: 9.5, end: 11.5, kind: 'booking', title: 'Tobias Herzog', sub: '+3 · 2 Std.', players: ['TH', 'JS', 'LP', 'MM'] },
+  { id: '4', day: 1, start: 17, end: 18.5, kind: 'booking', title: 'Lena Hofmann', sub: '+3 · 1 Std. 30 Min.', players: ['LH', 'AW'] },
   { id: '5', day: 2, start: 12.5, end: 14, kind: 'training', title: 'Training', sub: 'Erwachsene' },
-  { id: '6', day: 2, start: 20, end: 21.5, kind: 'booking', title: 'Max Mustermann', sub: '+3', players: ['MM', 'LP'] },
+  { id: '6', day: 2, start: 20, end: 21, kind: 'booking', title: 'Max Mustermann', sub: '+3 · 1 Std.', players: ['MM', 'LP'] },
   { id: '7', day: 3, start: 18, end: 21, kind: 'blocked', title: 'Court gesperrt', sub: 'Wartung Kunstrasen' },
   { id: '8', day: 4, start: 19, end: 23, kind: 'tournament', title: 'Padel Night', sub: 'Americano' },
-  { id: '9', day: 5, start: 8, end: 9.5, kind: 'booking', title: 'Jonas Schäfer', sub: '+1', players: ['JS', 'TH'] },
+  { id: '9', day: 5, start: 8, end: 9.5, kind: 'booking', title: 'Jonas Schäfer', sub: '+1 · 1 Std. 30 Min.', players: ['JS', 'TH'] },
   { id: '10', day: 5, start: 12.5, end: 14, kind: 'training', title: 'Training', sub: 'Jugend U12' },
-  { id: '11', day: 5, start: 13, end: 18, kind: 'notice', title: 'Mannschaftsspiel', sub: 'Hinweis aktiv' },
-  { id: '12', day: 5, start: 15.5, end: 17, kind: 'booking', title: 'Anna Weber', sub: '+1', players: ['AW', 'LH'] },
-  { id: '13', day: 5, start: 18.5, end: 20, kind: 'booking', title: 'Lazar Popovic', sub: '+3', players: ['LP', 'MM', 'JS', 'TH'] },
-  { id: '14', day: 5, start: 20, end: 21.5, kind: 'booking', title: 'Max Mustermann', sub: '+3', players: ['MM', 'LP'] },
+  { id: '11', day: 5, start: 17, end: 20, kind: 'notice', title: 'Mannschaftsspiel', sub: 'Hinweis aktiv' },
+  { id: '12', day: 5, start: 15.5, end: 17, kind: 'booking', title: 'Anna Weber', sub: '+1 · 1 Std. 30 Min.', players: ['AW', 'LH'] },
+  { id: '13', day: 5, start: 18, end: 20, kind: 'booking', title: 'Lazar Popovic', sub: '+3 · 2 Std.', players: ['LP', 'MM', 'JS', 'TH'] },
+  { id: '14', day: 5, start: 20, end: 20.5, kind: 'booking', title: 'Max Mustermann', sub: '+3 · 30 Min.', players: ['MM', 'LP'] },
+  { id: '14b', day: 5, start: 21, end: 21.5, kind: 'booking', title: 'Lena Hofmann', sub: '+1 · 30 Min.', players: ['LH', 'AW'] },
   { id: '15', day: 6, start: 8, end: 12, kind: 'tournament', title: 'Jugendturnier', sub: 'Finals' },
   { id: '16', day: 6, start: 14, end: 18.5, kind: 'blocked', title: 'Court gesperrt', sub: 'Jugendturnier' },
-  { id: '17', day: 6, start: 18.5, end: 20, kind: 'booking', title: 'Tobias Herzog', sub: '+3', players: ['TH', 'JS'] },
+  { id: '17', day: 6, start: 18.5, end: 21, kind: 'booking', title: 'Tobias Herzog', sub: '+3 · 2 Std. 30 Min.', players: ['TH', 'JS'] },
 ]
 
 const fmt = (h: number) => `${String(Math.floor(h)).padStart(2, '0')}:${h % 1 ? '30' : '00'}`
+const fmtDur = (min: number) => { const h = Math.floor(min / 60), m = min % 60; return h === 0 ? `${m} Min.` : m === 0 ? `${h} Std.` : `${h} Std. ${m} Min.` }
+
+/** Compact from/to control on the same 30-minute architecture as the public booking. */
+function TimeStepper({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (v: number) => void }) {
+  const btn = 'pressable grid size-10 place-items-center rounded-[8px] text-ink hover:bg-paper disabled:opacity-30 disabled:hover:bg-transparent'
+  return (
+    <div className="flex items-center justify-between rounded-[12px] bg-white p-1.5 pl-3.5 hairline">
+      <div><div className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted">{label}</div><div className="num text-[20px] font-semibold leading-none tracking-[-0.02em]">{fmt(value)}</div></div>
+      <div className="flex items-center gap-0.5">
+        <button type="button" aria-label={`${label} 30 Minuten früher`} disabled={value - 0.5 < min} onClick={() => onChange(value - 0.5)} className={btn}><ChevronLeft size={16} /></button>
+        <button type="button" aria-label={`${label} 30 Minuten später`} disabled={value + 0.5 > max} onClick={() => onChange(value + 0.5)} className={btn}><ChevronRight size={16} /></button>
+      </div>
+    </div>
+  )
+}
 
 export function Calendar() {
   const { toast } = useToast()
@@ -127,7 +144,8 @@ export function Calendar() {
                   onPointerUp={onUp}
                 >
                   {hours.map((h) => <div key={h} className="absolute inset-x-0 border-t border-line/70" style={{ top: (h - START) * ROW }} />)}
-                  {day === TODAY && <div className="absolute inset-x-0 z-10 flex items-center" style={{ top: (19.2 - START) * ROW }}><span className="-ml-1 size-2 rounded-full bg-clay" /><span className="h-px flex-1 bg-clay" /></div>}
+                  {hours.map((h) => <div key={`${h}h`} className="absolute inset-x-0 border-t border-dashed border-line/50" style={{ top: (h - START) * ROW + ROW / 2 }} />)}
+                  {day === TODAY && <div className="absolute inset-x-0 z-20 flex items-center" style={{ top: (19.2 - START) * ROW }}><span className="-ml-1 size-2 rounded-full bg-clay" /><span className="h-px flex-1 bg-clay" /></div>}
                   {[...blocks.filter((b) => b.day === day)].sort((a, b) => (a.kind === 'notice' ? -1 : b.kind === 'notice' ? 1 : 0)).map((b) => (
                     <motion.button
                       key={b.id}
@@ -137,11 +155,11 @@ export function Calendar() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={t.base}
                       onClick={() => setSelected(b)}
-                      className={cn('absolute left-1 right-1 flex flex-col justify-start overflow-hidden rounded-[8px] border px-2 py-1.5 text-left text-[12px] leading-tight transition-[box-shadow,transform] hover:z-20 hover:shadow-panel active:scale-[0.99]', kindStyle[b.kind], b.kind === 'notice' ? 'left-0.5 right-0.5 z-0' : 'z-10')}
+                      className={cn('absolute left-1 right-1 flex flex-col justify-start overflow-hidden rounded-[7px] border px-2 py-1 text-left text-[12px] leading-tight transition-[box-shadow,transform] hover:z-20 hover:shadow-panel active:scale-[0.99]', kindStyle[b.kind], b.kind === 'notice' ? 'left-0.5 right-0.5 z-0' : 'z-10')}
                       style={{ top: (b.start - START) * ROW + 2, height: (Math.min(b.end, END) - b.start) * ROW - 4 }}
                     >
-                      <div className="flex items-center justify-between gap-1"><span className="truncate font-semibold">{b.title}</span>{b.kind === 'booking' && b.start === 18.5 && day === TODAY && <Lightbulb size={11} className="glow-light shrink-0 text-sand" />}</div>
-                      <div className="num truncate opacity-80">{fmt(b.start)}–{fmt(b.end)}{b.sub ? ` · ${b.sub}` : ''}</div>
+                      <div className="flex items-center justify-between gap-1 leading-none"><span className="truncate font-semibold">{b.end - b.start <= 0.5 && <span className="num font-normal opacity-80">{fmt(b.start)} </span>}{b.title}</span>{b.kind === 'booking' && b.start === 18 && day === TODAY && <Lightbulb size={11} className="glow-light shrink-0 text-sand" />}</div>
+                      {b.end - b.start > 0.5 && <div className="num mt-0.5 truncate opacity-80">{fmt(b.start)}–{fmt(b.end)}{b.sub ? ` · ${b.sub}` : ''}</div>}
                     </motion.button>
                   ))}
                   {range && range.day === day && !drag && <div className="pointer-events-none absolute left-1 right-1 z-30 rounded-[8px] bg-green/15 shadow-[inset_0_0_0_2px_var(--color-green)]" style={{ top: (range.start - START) * ROW, height: (range.end - range.start) * ROW }} />}
@@ -186,8 +204,12 @@ export function Calendar() {
         {range && (
           <div className="p-6 md:p-8">
             <div className="eyebrow">Zeitraum verwalten</div>
-            <div className="num mt-2 text-[30px] font-semibold leading-none tracking-[-0.03em]">{fmt(range.start)} – {fmt(range.end)}</div>
             <div className="mt-2 text-[15px] text-muted">{['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'][range.day]}, {dayNums[range.day]}. September · Padel Court 01</div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <TimeStepper label="Von" value={range.start} min={START} max={range.end - 0.5} onChange={(v) => setRange({ ...range, start: v })} />
+              <TimeStepper label="Bis" value={range.end} min={range.start + 0.5} max={END} onChange={(v) => setRange({ ...range, end: v })} />
+            </div>
+            <div className="num mt-2 text-[13px] text-muted">Dauer: {fmtDur((range.end - range.start) * 60)}</div>
             <div className="mt-6">
               <div className="mb-1.5 text-[13px] font-medium">Grund</div>
               <div className="flex flex-wrap gap-1.5">{['Mannschaftsspiel', 'Jugendturnier', 'Wartung', 'Vereinsevent'].map((r) => <button key={r} onClick={() => setReason(r)} className={cn('pressable h-9 rounded-full border px-3.5 text-[13.5px] font-medium', reason === r ? 'border-ink bg-ink text-white' : 'border-line-2 bg-white hover:border-ink/40')}>{r}</button>)}</div>

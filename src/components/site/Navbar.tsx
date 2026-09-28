@@ -112,7 +112,7 @@ export function Navbar({ dark }: { dark?: boolean }) {
               <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: EASE, delay: 0.42 }} className="mt-8 flex flex-col gap-3">
                 <Button to="/padel/buchen" variant="primary" size="lg" arrow full>Padelplatz buchen</Button>
                 <div className="flex items-center justify-between text-[13px] text-muted">
-                  <span>Lohmühlweg 11a · 91341 Röttenbach</span>
+                  <span>Lohmühlweg 11A · 91341 Röttenbach</span>
                   <Link to="/admin" className="underline-offset-4 hover:underline">Admin</Link>
                 </div>
               </motion.div>

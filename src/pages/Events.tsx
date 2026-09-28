@@ -94,7 +94,7 @@ export function Events() {
             <div className="relative lg:col-span-8"><Photo variant="youth" className="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[540px]" /><div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-ink/40" /></div>
             <div className="flex flex-col justify-between p-7 md:p-10 lg:col-span-4">
               <div className="num leading-none"><div className="text-[80px] font-semibold tracking-[-0.05em] md:text-[112px]">18<span className="text-white/35">–</span>20</div><div className="mt-2 text-[12.5px] font-medium uppercase tracking-[0.2em] text-white/55">Sep 2026 · Jugend</div></div>
-              <div className="mt-16"><h2 className="text-[28px] font-semibold leading-tight tracking-[-0.025em] md:text-[34px]">42. Röttenbacher Jugendturnier</h2><p className="mt-3 text-[15px] text-white/60">Drei Tage, alle Plätze, über 120 Spielerinnen und Spieler.</p><div className="mt-6 flex items-center gap-2 text-[14.5px] font-medium">Event ansehen<ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-[3px]" /></div></div>
+              <div className="mt-16"><h2 className="text-[28px] font-semibold leading-tight tracking-[-0.025em] md:text-[34px]">42. Röttenbacher Jugendturnier</h2><p className="mt-3 text-[15px] text-white/60">Drei Tage Nachwuchstennis am Lohmühlweg. Details auf tennis-roettenbach.de.</p><div className="mt-6 flex items-center gap-2 text-[14.5px] font-medium">Event ansehen<ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-[3px]" /></div></div>
             </div>
           </button>
         </Reveal>

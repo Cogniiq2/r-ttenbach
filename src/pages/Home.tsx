@@ -79,7 +79,7 @@ function Hero() {
                     )}
                   >
                     <span className="num whitespace-nowrap text-[16px] font-semibold leading-none">{d.time}<span className={cn('ml-1 hidden text-[12px] font-normal sm:inline', active ? 'text-ink/50' : 'text-white/40')}>– {d.end}</span></span>
-                    <span className={cn('mt-1.5 text-[11.5px] font-medium', busy ? 'text-white/35' : active ? 'text-green' : 'text-[#8FD0A8]')}>{d.status}{busy && <span className="hidden sm:inline"> · Mannschaft</span>}</span>
+                    <span className={cn('mt-1.5 text-[11.5px] font-medium', busy ? 'text-white/35' : active ? 'text-green' : 'text-[#8FD0A8]')}>{d.status}</span>
                     {busy && <span className="absolute inset-0 rounded-[12px] bg-[repeating-linear-gradient(-45deg,rgba(255,255,255,0.05)_0_6px,transparent_6px_12px)]" />}
                   </button>
                 )
@@ -108,7 +108,7 @@ function Statement() {
           </h2>
         </Reveal>
         <Reveal delay={0.12} className="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-12">
-          <p className="lede max-w-md lg:col-span-5 lg:col-start-4">Ein Verein für Wettkampf, Freizeit, Nachwuchs und Gemeinschaft. Sechs Sandplätze, ein Padel Court, ein Clubhaus und Menschen, die gerne hier sind.</p>
+          <p className="lede max-w-md lg:col-span-5 lg:col-start-4">Ein Verein für Wettkampf, Freizeit, Nachwuchs und Gemeinschaft. Sechs Tennisplätze am Lohmühlweg, ein Padel Court im Sportpark der Gemeinde und Menschen, die gerne hier sind.</p>
           <div className="lg:col-span-3 lg:col-start-10 lg:justify-self-end"><Button to="/verein" variant="secondary" arrow>Über den Verein</Button></div>
         </Reveal>
       </div>
@@ -122,8 +122,8 @@ function Sports() {
     <section className="container-wide">
       <div className="grid gap-3 md:grid-cols-2 md:gap-4">
         {[
-          { to: '/tennis', title: 'Tennis', sub: 'Sechs Sandplätze, acht Mannschaften, Training ab sechs Jahren.', v: 'tennis' as const, n: '01' },
-          { to: '/padel', title: 'Padel', sub: 'Ein Court, ständig ausgebucht. Online buchen, direkt spielen.', v: 'padel' as const, n: '02' },
+          { to: '/tennis', title: 'Tennis', sub: 'Sechs Tennisplätze, Mannschaften, Training und Jugend.', v: 'tennis' as const, n: '01' },
+          { to: '/padel', title: 'Padel', sub: 'Ein Court im Sportpark, hohe Nachfrage. Von bis wann du willst.', v: 'padel' as const, n: '02' },
         ].map((c, i) => (
           <Reveal key={c.to} delay={i * 0.08}>
             <Link to={c.to} className="group relative block overflow-hidden rounded-[24px] bg-ink text-white">
@@ -159,7 +159,7 @@ function PadelProduct() {
           <div className="eyebrow !text-white/45">Padel</div>
           <h2 className="display-md mt-5">Ein Court.<br />Immer mehr Begeisterung.</h2>
           <ul className="mt-9 space-y-4 border-l border-white/15 pl-6 text-[18px] leading-tight md:text-[20px]">
-            {[['Hohe Auslastung.', '86 % der Slots sind belegt.'], ['Einfach buchen.', 'Unter einer Minute, auf jedem Gerät.'], ['Direkt spielen.', 'Flutlicht schaltet sich automatisch.']].map(([a, b]) => (
+            {[['Hohe Auslastung.', 'Nicht jede Anfrage findet Platz.'], ['Einfach buchen.', 'Start und Ende selbst wählen.'], ['Direkt spielen.', 'Flutlicht schaltet sich automatisch.']].map(([a, b]) => (
               <li key={a}><span className="font-medium">{a}</span> <span className="text-white/50">{b}</span></li>
             ))}
           </ul>
@@ -168,7 +168,7 @@ function PadelProduct() {
         <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7">
           <div className="rounded-[20px] border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm md:p-6">
             <div className="flex items-center justify-between">
-              <div><div className="text-[15px] font-semibold">Padel Court 01</div><div className="text-[12.5px] text-white/50">Samstag, 26. September · 90 Minuten je Slot</div></div>
+              <div><div className="text-[15px] font-semibold">Padel Court 01</div><div className="text-[12.5px] text-white/50">Samstag, 26. September · Demo-Belegung</div></div>
               <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-[12px] font-medium text-[#8FD0A8]"><span className="size-1.5 rounded-full bg-current" />bis 22:00</span>
             </div>
             <div className="mt-5 grid grid-cols-3 gap-2">
@@ -213,7 +213,7 @@ function EventFeature() {
               <div className="mt-14">
                 <div className="eyebrow">Nächstes Event</div>
                 <h3 className="display-sm mt-3">42. Röttenbacher Jugendturnier</h3>
-                <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-muted">Drei Tage Nachwuchstennis auf allen Plätzen. Finals am Sonntagnachmittag.</p>
+                <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-muted">Drei Tage Nachwuchstennis auf der Anlage am Lohmühlweg.</p>
                 <div className="mt-8 flex items-center gap-2 text-[14.5px] font-medium">Event ansehen<ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-[3px]" /></div>
               </div>
             </div>
@@ -225,11 +225,11 @@ function EventFeature() {
 }
 
 const faces = [
-  { t: 'Mannschaften', s: 'Acht Teams im Punktspielbetrieb.', v: 'tennis' as const },
-  { t: 'Nachwuchs', s: 'Ballschule ab sechs Jahren.', v: 'youth' as const },
+  { t: 'Mannschaften', s: 'Punktspiele im Bayerischen Tennis-Verband.', v: 'tennis' as const },
+  { t: 'Nachwuchs', s: '70 Jugendliche im Verein.', v: 'youth' as const },
   { t: 'Freizeitspieler', s: 'Ohne Druck, ohne Termin.', v: 'people' as const },
-  { t: 'Padel', s: 'Die schnellste Community im Verein.', v: 'padel' as const },
-  { t: 'Events', s: 'Saisonstart, Clubmeisterschaft, Padel Night.', v: 'night' as const },
+  { t: 'Padel', s: 'Öffentliche Zeiten und Mitgliederzeiten.', v: 'padel' as const },
+  { t: 'Events', s: 'Jugendturnier und Vereinsleben.', v: 'night' as const },
 ]
 
 /* Community as a horizontal film strip, not a card grid. */
@@ -256,23 +256,6 @@ function Community() {
   )
 }
 
-const sponsors = ['Sparkasse Erlangen', 'Brauerei Weller', 'Autohaus Kern', 'Raiffeisenbank', 'Bäckerei Hofmann', 'Physio Röttenbach']
-
-function Sponsors() {
-  return (
-    <section className="py-[96px] md:py-[120px]">
-      <div className="container-x">
-        <Reveal className="flex flex-col gap-8 border-t border-line pt-10 md:flex-row md:items-center md:justify-between">
-          <div className="eyebrow shrink-0">Partner des Vereins</div>
-          <div className="flex flex-wrap gap-x-8 gap-y-3 md:justify-end">
-            {sponsors.map((s) => <span key={s} className="text-[15px] font-semibold tracking-[-0.01em] text-ink/30 transition-colors duration-300 hover:text-ink">{s}</span>)}
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  )
-}
-
 export function Home() {
   return (
     <Page>
@@ -282,7 +265,6 @@ export function Home() {
       <PadelProduct />
       <EventFeature />
       <Community />
-      <Sponsors />
     </Page>
   )
 }

@@ -40,7 +40,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
       <div className="border-t border-line p-3">
         <Link to="/" className="flex items-center gap-3 rounded-[10px] px-3 py-2.5 text-[13px] text-muted hover:bg-ink/[0.04] hover:text-ink"><ExternalLink size={15} />Zur Website</Link>
-        <div className="mt-1 flex items-center gap-3 rounded-[10px] px-3 py-2.5"><span className="grid size-8 place-items-center rounded-full bg-ink text-[11px] font-semibold text-white">GR</span><div className="leading-tight"><div className="text-[13px] font-medium">Günter Rottmann</div><div className="text-[11px] text-muted">Vorstand</div></div></div>
+        <div className="mt-1 flex items-center gap-3 rounded-[10px] px-3 py-2.5"><span className="grid size-8 place-items-center rounded-full bg-ink text-[11px] font-semibold text-white">GH</span><div className="leading-tight"><div className="text-[13px] font-medium">Günter Hess</div><div className="text-[11px] text-muted">1. Vorsitzender</div></div></div>
       </div>
     </div>
   )

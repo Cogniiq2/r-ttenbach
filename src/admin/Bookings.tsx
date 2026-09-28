@@ -27,14 +27,14 @@ export function Bookings() {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-[14px]">
-            <thead className="text-left text-[12px] uppercase tracking-[0.1em] text-muted"><tr>{['Zeit', 'Spieler', 'Court', 'Zahlung', 'Betrag', 'Status', ''].map((h, i) => <th key={i} className="px-5 py-3 font-medium">{h}</th>)}</tr></thead>
+            <thead className="text-left text-[12px] uppercase tracking-[0.1em] text-muted"><tr>{['Zeit', 'Dauer', 'Spieler', 'Zahlung', 'Betrag', 'Status', ''].map((h, i) => <th key={i} className="px-5 py-3 font-medium">{h}</th>)}</tr></thead>
             <tbody className="divide-y divide-line">
               {list.map((b) => (
                 <tr key={b.id} onClick={() => setOpen(b)} className="cursor-pointer transition-colors hover:bg-paper/70">
                   <td className="num px-5 py-3.5 font-medium">{b.time}</td>
+                  <td className="num px-5 py-3.5 text-muted">{b.duration}</td>
                   <td className="px-5 py-3.5"><div className="flex items-center gap-2.5"><Avatar initials={b.name.split(' ').map((s) => s[0]).join('')} size="sm" />{b.name}<span className="text-muted">+{b.players - 1}</span></div></td>
-                  <td className="px-5 py-3.5 text-muted">{b.court}</td>
-                  <td className="px-5 py-3.5 text-muted">{b.method}</td>
+                                    <td className="px-5 py-3.5 text-muted">{b.method}</td>
                   <td className="num px-5 py-3.5">{b.amount}</td>
                   <td className="px-5 py-3.5"><Pill tone={statusTone(b.status)}>{b.status}</Pill></td>
                   <td className="px-5 py-3.5 text-right text-[13px] text-green">Details</td>
@@ -53,7 +53,7 @@ export function Bookings() {
             <div className="text-[14px] text-muted">Samstag, 26. September · {open.court}</div>
             <div className="mt-4"><Pill tone={statusTone(open.status)}>{open.status}</Pill></div>
             <dl className="mt-6 divide-y divide-line border-y border-line text-[14px]">
-              {[['Gebucht von', open.name], ['Spieler', `${open.players}`], ['Zahlungsart', open.method], ['Betrag', open.amount], ['Flutlicht', 'Automatisch'], ['Buchungsnummer', `TCR-2609-${open.time.slice(0, 2)}${open.time.slice(3, 5)}`]].map(([k, v]) => <div key={k} className="flex justify-between py-3"><dt className="text-muted">{k}</dt><dd className="num font-medium">{v}</dd></div>)}
+              {[['Gebucht von', open.name], ['Dauer', open.duration], ['Spieler', `${open.players}`], ['Zahlungsart', open.method], ['Betrag', open.amount], ['Flutlicht', 'Automatisch'], ['Buchungsnummer', `TCR-2609-${open.time.slice(0, 2)}${open.time.slice(3, 5)}`]].map(([k, v]) => <div key={k} className="flex justify-between py-3"><dt className="text-muted">{k}</dt><dd className="num font-medium">{v}</dd></div>)}
             </dl>
             <div className="mt-6 flex gap-2"><Button variant="secondary" full onClick={() => { toast('E-Mail gesendet', 'Buchungsbestätigung · Demo'); setOpen(null) }}>Bestätigung senden</Button><Button variant="dark" full className="!bg-[#9A3B3B] hover:!bg-[#7E2F2F]" onClick={() => { toast('Buchung storniert', 'Rückerstattung ausgelöst · Demo'); setOpen(null) }}>Stornieren</Button></div>
           </div>

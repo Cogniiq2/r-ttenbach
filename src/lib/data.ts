@@ -102,7 +102,7 @@ export const events: ClubEvent[] = [
     tone: 'green',
     featured: true,
     description:
-      'Drei Tage Nachwuchstennis auf allen Plätzen. Über 120 Spielerinnen und Spieler aus der Region, Verpflegung am Clubhaus, Finals am Sonntagnachmittag.',
+      'Drei Tage Nachwuchstennis auf der Anlage am Lohmühlweg. Details und Zeitplan auf tennis-roettenbach.de.',
     occupancy: [
       { label: 'Tennisplätze 1–6', value: '08:00–18:00 belegt', kind: 'blocked' },
       { label: 'Padel Court', value: '12:00–16:00 gesperrt', kind: 'blocked' },
@@ -138,15 +138,15 @@ export const events: ClubEvent[] = [
   },
   {
     id: 'mannschaft',
-    title: 'Mannschaftsspiele Herren 30',
+    title: 'Mannschaftsspiel (Demo)',
     date: '26. September 2026',
-    time: '13:00 – 18:00',
+    time: '17:00 – 20:00',
     category: 'Tennis',
     location: 'Plätze 1–4',
     tone: 'moss',
-    description: 'Heimspieltag der Herren 30 gegen TSV Herzogenaurach. Zuschauer willkommen.',
+    description: 'Beispielhafter Heimspieltag. Zeigt, wie ein Mannschaftsspiel den Padel Court als Hinweis begleitet, ohne ihn zu sperren.',
     occupancy: [
-      { label: 'Tennisplätze 1–4', value: '13:00–18:00 belegt', kind: 'blocked' },
+      { label: 'Tennisplätze 1–4', value: '17:00–20:00 belegt', kind: 'blocked' },
       { label: 'Padel Court', value: 'Padel verfügbar · Hinweis erforderlich', kind: 'notice' },
     ],
   },
@@ -181,21 +181,22 @@ export const events: ClubEvent[] = [
 ]
 
 export const members = [
-  { id: 'm1', name: 'Tobias Herzog', type: 'TC Mitglied', status: 'Aktiv', bookings: 18, since: 2021, padel: true, email: 't.herzog@example.de' },
+  { id: 'm1', name: 'Tobias Herzog', type: 'TC Mitglied · Sportwart', status: 'Aktiv', bookings: 18, since: 2021, padel: true, email: 't.herzog@example.de' },
   { id: 'm2', name: 'Lazar Popovic', type: 'TC Mitglied', status: 'Aktiv', bookings: 24, since: 2019, padel: true, email: 'l.popovic@example.de' },
   { id: 'm3', name: 'Anna Weber', type: 'TC Mitglied', status: 'Aktiv', bookings: 11, since: 2023, padel: true, email: 'a.weber@example.de' },
   { id: 'm4', name: 'Jonas Schäfer', type: 'Jugend', status: 'Aktiv', bookings: 7, since: 2024, padel: false, email: 'j.schaefer@example.de' },
   { id: 'm5', name: 'Max Mustermann', type: 'Gast', status: 'Gast', bookings: 3, since: 2026, padel: true, email: 'max@example.de' },
   { id: 'm6', name: 'Sabine Kraus', type: 'TC Mitglied', status: 'Ruhend', bookings: 0, since: 2016, padel: false, email: 's.kraus@example.de' },
-  { id: 'm7', name: 'Günter Rottmann', type: 'Vorstand', status: 'Aktiv', bookings: 14, since: 2008, padel: true, email: 'g.rottmann@example.de' },
+  { id: 'm7', name: 'Peter Lang', type: 'TC Mitglied', status: 'Aktiv', bookings: 14, since: 2008, padel: true, email: 'p.lang@example.de' },
   { id: 'm8', name: 'Lena Hofmann', type: 'TC Mitglied', status: 'Aktiv', bookings: 9, since: 2022, padel: true, email: 'l.hofmann@example.de' },
 ]
 
+/* DEMO bookings with variable durations. */
 export const adminBookings = [
-  { id: 'b1', time: '18:30 – 20:00', court: 'Padel Court 01', name: 'Lazar Popovic', players: 4, status: 'Bezahlt', amount: '16,00 €', method: 'Apple Pay' },
-  { id: 'b2', time: '20:00 – 21:30', court: 'Padel Court 01', name: 'Max Mustermann', players: 4, status: 'Bezahlt', amount: '24,00 €', method: 'PayPal' },
-  { id: 'b3', time: '17:00 – 18:30', court: 'Padel Court 01', name: 'Anna Weber', players: 2, status: 'Bezahlt', amount: '12,00 €', method: 'Karte' },
-  { id: 'b4', time: '14:00 – 15:30', court: 'Padel Court 01', name: 'Lena Hofmann', players: 4, status: 'Offen', amount: '16,00 €', method: 'Klarna' },
-  { id: 'b5', time: '09:30 – 11:00', court: 'Padel Court 01', name: 'Tobias Herzog', players: 4, status: 'Bezahlt', amount: '8,00 €', method: 'Karte' },
-  { id: 'b6', time: '08:00 – 09:30', court: 'Padel Court 01', name: 'Jonas Schäfer', players: 2, status: 'Storniert', amount: '0,00 €', method: '–' },
+  { id: 'b1', time: '18:00 – 20:00', duration: '2 Std.', court: 'Padel Court 01', name: 'Lazar Popovic', players: 4, status: 'Bezahlt', amount: '24,00 €', method: 'Apple Pay' },
+  { id: 'b2', time: '20:00 – 20:30', duration: '30 Min.', court: 'Padel Court 01', name: 'Max Mustermann', players: 4, status: 'Bezahlt', amount: '8,00 €', method: 'PayPal' },
+  { id: 'b3', time: '15:30 – 17:00', duration: '1 Std. 30 Min.', court: 'Padel Court 01', name: 'Anna Weber', players: 2, status: 'Bezahlt', amount: '21,00 €', method: 'Karte' },
+  { id: 'b4', time: '21:00 – 21:30', duration: '30 Min.', court: 'Padel Court 01', name: 'Lena Hofmann', players: 2, status: 'Offen', amount: '7,00 €', method: 'Klarna' },
+  { id: 'b5', time: '08:00 – 09:30', duration: '1 Std. 30 Min.', court: 'Padel Court 01', name: 'Jonas Schäfer', players: 2, status: 'Bezahlt', amount: '24,00 €', method: 'Karte' },
+  { id: 'b6', time: '10:00 – 11:00', duration: '1 Std.', court: 'Padel Court 01', name: 'Tobias Herzog', players: 4, status: 'Storniert', amount: '0,00 €', method: '–' },
 ]

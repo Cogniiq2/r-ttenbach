@@ -26,14 +26,14 @@ export function Overview() {
               <div className="text-[12px] font-medium uppercase tracking-[0.16em] text-white/50">Padel Court 01</div>
               <span className="flex items-center gap-2 text-[12.5px] font-medium text-[#8FD0A8]"><span className="pulse-dot size-1.5 rounded-full bg-current" />Aktuell belegt</span>
             </div>
-            <div className="num mt-6 whitespace-nowrap text-[38px] font-semibold leading-none tracking-[-0.04em] sm:text-[48px] md:text-[64px]">18:30 <span className="text-white/35">–</span> 20:00</div>
+            <div className="num mt-6 whitespace-nowrap text-[38px] font-semibold leading-none tracking-[-0.04em] sm:text-[48px] md:text-[64px]">18:00 <span className="text-white/35">–</span> 20:00</div>
             <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <div className="flex items-center gap-3"><div className="flex -space-x-2">{['LP', 'MM', 'JS', 'TH'].map((p, i) => <Avatar key={p} initials={p} tone={i} className="!ring-ink" />)}</div><div><div className="text-[15px] font-medium">Lazar Popovic</div><div className="text-[12.5px] text-white/50">+3 Spieler · Doppel · bezahlt</div></div></div>
-              <div className="flex items-center gap-2.5 rounded-full bg-white/[0.07] py-1.5 pl-2 pr-3.5 text-[13px]"><Lightbulb size={15} className="glow-light text-sand" />Flutlicht <span className="font-semibold">AN</span><span className="num text-white/40">seit 18:25</span></div>
+              <div className="flex items-center gap-3"><div className="flex -space-x-2">{['LP', 'MM', 'JS', 'TH'].map((p, i) => <Avatar key={p} initials={p} tone={i} className="!ring-ink" />)}</div><div><div className="text-[15px] font-medium">Lazar Popovic</div><div className="text-[12.5px] text-white/50">+3 Spieler · 2 Std. · bezahlt</div></div></div>
+              <div className="flex items-center gap-2.5 rounded-full bg-white/[0.07] py-1.5 pl-2 pr-3.5 text-[13px]"><Lightbulb size={15} className="glow-light text-sand" />Flutlicht <span className="font-semibold">AN</span><span className="num text-white/40">seit 17:55</span></div>
             </div>
             {/* day timeline */}
             <div className="mt-10">
-              <div className="mb-2 flex justify-between text-[11.5px] text-white/45"><span>Heute</span><span className="num">8 / 9 Slots belegt · 86 %</span></div>
+              <div className="mb-2 flex justify-between text-[11.5px] text-white/45"><span>Heute</span><span className="num">12 / 14 Std. belegt · 86 %</span></div>
               <div className="flex h-9 gap-[3px]">
                 {timeline.map((h, i) => (
                   <motion.div key={h.t} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 0.5, ease: EASE, delay: 0.3 + i * 0.03 }} style={{ transformOrigin: 'bottom' }} className={cn('flex-1 rounded-[4px]', h.v === 3 ? 'bg-[#8FD0A8]' : h.v === 1 ? 'bg-white/45' : h.v === 2 ? 'bg-sand/70' : 'bg-white/10')} title={h.t} />
@@ -46,7 +46,7 @@ export function Overview() {
           <div className="border-t border-white/10 p-6 md:p-8 lg:col-span-5 lg:border-l lg:border-t-0">
             <div className="text-[12px] font-medium uppercase tracking-[0.16em] text-white/50">Als Nächstes</div>
             <div className="mt-6 space-y-5">
-              {[{ t: '20:00 — 21:30', n: 'Max Mustermann', s: '+3 Spieler · Gast · PayPal', i: 'MM', tone: 1 }, { t: '21:30 — 22:00', n: 'Flutlicht aus', s: 'Automatisch, 5 Min. nach Spielende', i: null, tone: 0 }].map((x) => (
+              {[{ t: '20:00 — 20:30', n: 'Max Mustermann', s: '+3 Spieler · 30 Min. · PayPal', i: 'MM', tone: 1 }, { t: '21:00 — 21:30', n: 'Lena Hofmann', s: '+1 Spieler · 30 Min. · Klarna', i: 'LH', tone: 4 }, { t: '21:35', n: 'Flutlicht aus', s: 'Automatisch, 5 Min. nach Spielende', i: null, tone: 0 }].map((x) => (
                 <div key={x.t} className="flex items-start gap-4">
                   {x.i ? <Avatar initials={x.i} tone={x.tone} className="!ring-ink" /> : <span className="grid size-9 place-items-center rounded-full bg-white/[0.07]"><Lightbulb size={15} className="text-white/60" /></span>}
                   <div><div className="num text-[17px] font-semibold tracking-[-0.01em]">{x.t}</div><div className="text-[14px]">{x.n}</div><div className="text-[12.5px] text-white/45">{x.s}</div></div>
@@ -56,7 +56,7 @@ export function Overview() {
             <div className="mt-8 border-t border-white/10 pt-5">
               <div className="text-[12px] font-medium uppercase tracking-[0.16em] text-white/50">Hinweise</div>
               <ul className="mt-3 space-y-2.5 text-[13.5px]">
-                <li className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-sand" /><span>Mannschaftsspiel 13:00–18:00 <span className="text-white/45">· Hinweis war aktiv</span></span></li>
+                <li className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-sand" /><span>Mannschaftsspiel 17:00–20:00 <span className="text-white/45">· Hinweis aktiv</span></span></li>
                 <li className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-white/40" /><span>Jugendturnier So 14:00–18:30 <span className="text-white/45">· Court gesperrt</span></span></li>
                 <li className="flex gap-2.5"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-clay" /><span>1 offene Zahlung <span className="text-white/45">· Lena Hofmann, 16,00 €</span></span></li>
               </ul>
@@ -80,11 +80,12 @@ export function Overview() {
         <header className="flex items-center justify-between px-5 py-3.5"><h2 className="text-[14px] font-semibold">Buchungen heute</h2><Link to="/admin/buchungen" className="text-[13px] font-medium text-green hover:underline">Alle ansehen</Link></header>
         <div className="overflow-x-auto border-t border-line">
           <table className="w-full min-w-[640px] text-[14px]">
-            <thead className="text-left text-[11.5px] uppercase tracking-[0.1em] text-muted"><tr>{['Zeit', 'Spieler', 'Zahlung', 'Betrag', 'Status'].map((h) => <th key={h} className="px-5 py-2.5 font-medium">{h}</th>)}</tr></thead>
+            <thead className="text-left text-[11.5px] uppercase tracking-[0.1em] text-muted"><tr>{['Zeit', 'Dauer', 'Spieler', 'Zahlung', 'Betrag', 'Status'].map((h) => <th key={h} className="px-5 py-2.5 font-medium">{h}</th>)}</tr></thead>
             <tbody className="divide-y divide-line">
               {adminBookings.slice(0, 4).map((b) => (
                 <tr key={b.id} className="transition-colors hover:bg-paper/70">
                   <td className="num px-5 py-3 font-medium">{b.time}</td>
+                  <td className="num px-5 py-3 text-muted">{b.duration}</td>
                   <td className="px-5 py-3"><div className="flex items-center gap-2.5"><Avatar initials={b.name.split(' ').map((s) => s[0]).join('')} size="sm" />{b.name}<span className="text-muted">+{b.players - 1}</span></div></td>
                   <td className="px-5 py-3 text-muted">{b.method}</td>
                   <td className="num px-5 py-3">{b.amount}</td>
