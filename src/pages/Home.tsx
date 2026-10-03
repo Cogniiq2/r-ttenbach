@@ -4,7 +4,6 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform }
 import { ArrowRight, ArrowUpRight, Lightbulb } from 'lucide-react'
 import { Page } from '@/components/site/Page'
 import { Button } from '@/components/ui/Button'
-import { Photo } from '@/components/ui/Photo'
 import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
 import { RevealText } from '@/components/ui/RevealText'
@@ -134,7 +133,7 @@ function Sports() {
     <section className="container-wide">
       <div className="grid gap-3 md:grid-cols-2 md:gap-4">
         {[
-          { to: '/tennis', title: 'Tennis', sub: 'Sechs Tennisplätze, Mannschaften, Training und Jugend.', n: '01', media: <Photo variant="clay" className="aspect-[4/5] md:aspect-[5/6] lg:aspect-[4/5]" /> },
+          { to: '/tennis', title: 'Tennis', sub: 'Sechs Tennisplätze, Mannschaften, Training und Jugend.', n: '01', media: <Picture name="clayPlayer" alt="Tennisspieler in Bereitschaftsstellung auf Sand" focus="50% 45%" sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[4/5] md:aspect-[5/6] lg:aspect-[4/5]" /> },
           { to: '/padel', title: 'Padel', sub: 'Ein Court im Sportpark, hohe Nachfrage. Von bis wann du willst.', n: '02', media: <Picture name="flatlay" alt="Zwei Padelschläger auf blauem Kunstrasen" focus="55% 50%" sizes="(min-width: 768px) 50vw, 100vw" className="aspect-[4/5] md:aspect-[5/6] lg:aspect-[4/5]" /> },
         ].map((c, i) => (
           <Reveal key={c.to} delay={i * 0.08}>
@@ -294,7 +293,7 @@ function EventFeature() {
       <div className="container-wide">
         <Reveal>
           <Link to="/events/jugendturnier" className="group grid overflow-hidden rounded-[24px] bg-surface hairline transition-shadow duration-500 hover:shadow-panel lg:grid-cols-12">
-            <div className="relative overflow-hidden lg:col-span-7"><Photo variant="youth" className="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[520px]" /></div>
+            <div className="relative overflow-hidden lg:col-span-7"><Picture name="aerial" alt="Sandplatz von oben mit zwei Spielern" focus="50% 55%" sizes="(min-width: 1024px) 58vw, 100vw" className="aspect-[4/3] h-full lg:aspect-auto lg:min-h-[520px]" /></div>
             <div className="flex flex-col justify-between p-7 md:p-10 lg:col-span-5">
               <div className="flex items-start justify-between">
                 <div className="num leading-none">

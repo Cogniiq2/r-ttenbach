@@ -4,7 +4,8 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Clock, MapPin } from 'lucide-react'
 import { Page } from '@/components/site/Page'
 import { Button } from '@/components/ui/Button'
-import { Photo, type PhotoVariant } from '@/components/ui/Photo'
+import { Picture } from '@/components/ui/Picture'
+import type { ImageName } from '@/lib/images'
 import { Pill } from '@/components/ui/Pill'
 import { Modal } from '@/components/ui/Modal'
 import { Reveal } from '@/components/ui/Reveal'
@@ -13,7 +14,15 @@ import { cn } from '@/lib/cn'
 import { EASE, t } from '@/lib/motion'
 
 const filters: ('Alle' | EventCategory)[] = ['Alle', 'Tennis', 'Padel', 'Jugend', 'Verein']
-const toneToPhoto: Record<ClubEvent['tone'], PhotoVariant> = { green: 'padel', clay: 'clay', dark: 'night', sand: 'club', moss: 'tennis' }
+const eventImage: Record<string, { name: ImageName; focus: string }> = {
+  jugendturnier: { name: 'aerial', focus: '50% 55%' },
+  saisoneroeffnung: { name: 'net', focus: '50% 50%' },
+  afterwork: { name: 'shadow', focus: '35% 65%' },
+  mannschaft: { name: 'clayPlayer', focus: '50% 40%' },
+  vereinsmeisterschaft: { name: 'handshake', focus: '45% 42%' },
+  padelnight: { name: 'serve', focus: '50% 30%' },
+}
+const imgFor = (id: string) => eventImage[id] ?? { name: 'net' as ImageName, focus: '50% 50%' }
 
 /** "18.–20. September 2026" → { day: "18–20", month: "Sep" } */
 function bigDate(date: string) {
@@ -37,7 +46,7 @@ export function EventDetail({ e }: { e: ClubEvent }) {
   const d = bigDate(e.date)
   return (
     <div>
-      <Photo variant={toneToPhoto[e.tone]} className="aspect-[16/9] sm:rounded-t-[20px]" zoom={false} />
+      <Picture name={imgFor(e.id).name} alt="" focus={imgFor(e.id).focus} sizes="(min-width: 640px) 640px, 100vw" className="aspect-[16/9] sm:rounded-t-[20px]" zoom={false} />
       <div className="p-6 md:p-8">
         <div className="flex items-start gap-6">
           <div className="num leading-none"><div className="text-[44px] font-semibold tracking-[-0.04em]">{d.day}</div><div className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted">{d.month}</div></div>
@@ -71,7 +80,7 @@ function EventRow({ e, onOpen }: { e: ClubEvent; onOpen: () => void }) {
         <h3 className="mt-1.5 text-[20px] font-semibold leading-tight tracking-[-0.02em] transition-colors group-hover:text-green md:text-[24px]">{e.title}</h3>
         <p className="mt-1.5 line-clamp-1 text-[14px] text-muted md:hidden">{e.location}</p>
       </div>
-      <div className="hidden md:block"><Photo variant={toneToPhoto[e.tone]} className="aspect-[16/10] rounded-[12px]" /></div>
+      <div className="hidden overflow-hidden rounded-[12px] md:block"><Picture name={imgFor(e.id).name} alt="" focus={imgFor(e.id).focus} sizes="180px" className="aspect-[16/10]" /></div>
       <span className="hidden size-10 place-items-center rounded-full border border-line text-muted transition-all duration-300 group-hover:border-ink group-hover:bg-ink group-hover:text-white md:grid"><ArrowUpRight size={16} /></span>
     </motion.button>
   )
@@ -91,7 +100,7 @@ export function Events() {
         <Reveal className="max-w-3xl"><div className="eyebrow">Events</div><h1 className="display-lg mt-4">Was bei uns passiert.</h1></Reveal>
         <Reveal delay={0.1} className="mt-12 md:mt-16">
           <button onClick={() => navigate('/events/jugendturnier')} className="group grid w-full overflow-hidden rounded-[24px] bg-ink text-left text-white lg:grid-cols-12">
-            <div className="relative lg:col-span-8"><Photo variant="youth" className="aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[540px]" /><div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-ink/40" /></div>
+            <div className="relative overflow-hidden lg:col-span-8"><Picture name="aerial" alt="Sandplatz von oben mit zwei Spielern" priority focus="50% 52%" sizes="(min-width: 1024px) 66vw, 100vw" className="aspect-[4/3] h-full lg:aspect-auto lg:min-h-[540px]" /><div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-ink/40" /></div>
             <div className="flex flex-col justify-between p-7 md:p-10 lg:col-span-4">
               <div className="num leading-none"><div className="text-[80px] font-semibold tracking-[-0.05em] md:text-[112px]">18<span className="text-white/35">–</span>20</div><div className="mt-2 text-[12.5px] font-medium uppercase tracking-[0.2em] text-white/55">Sep 2026 · Jugend</div></div>
               <div className="mt-16"><h2 className="text-[28px] font-semibold leading-tight tracking-[-0.025em] md:text-[34px]">42. Röttenbacher Jugendturnier</h2><p className="mt-3 text-[15px] text-white/60">Drei Tage Nachwuchstennis am Lohmühlweg. Details auf tennis-roettenbach.de.</p><div className="mt-6 flex items-center gap-2 text-[14.5px] font-medium">Event ansehen<ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-[3px]" /></div></div>

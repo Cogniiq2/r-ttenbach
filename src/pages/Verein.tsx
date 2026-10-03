@@ -2,7 +2,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { Page } from '@/components/site/Page'
 import { PageHero } from '@/components/site/PageHero'
 import { Button } from '@/components/ui/Button'
-import { Photo } from '@/components/ui/Photo'
+import { Picture } from '@/components/ui/Picture'
 import { Reveal } from '@/components/ui/Reveal'
 import { CountUp } from '@/components/ui/CountUp'
 import { Avatar } from '@/components/ui/Avatar'
@@ -11,7 +11,7 @@ import { club, fullAddress } from '@/lib/club'
 export function Verein() {
   return (
     <Page>
-      <PageHero eyebrow="Verein" title="Mehr als ein Tennisverein." lede={`${club.members.total} Mitglieder, ${club.tennisCourts} Tennisplätze und ein Padel Court im Sportpark der Gemeinde.`} variant="club" />
+      <PageHero eyebrow="Verein" title="Mehr als ein Tennisverein." lede={`${club.members.total} Mitglieder, ${club.tennisCourts} Tennisplätze und ein Padel Court im Sportpark der Gemeinde.`} image="handshake" focus="48% 42%" />
 
       <section className="section">
         <div className="container-x grid gap-12 lg:grid-cols-12">
@@ -50,8 +50,8 @@ export function Verein() {
         <div className="container-wide">
           <Reveal className="max-w-xl"><div className="eyebrow">Anlage</div><h2 className="display-md mt-4">{club.address.street}.</h2><p className="lede mt-4">{club.tennisCourts} Tennisplätze am Lohmühlweg. Der Padel Court liegt im Sportpark der Gemeinde Röttenbach.</p></Reveal>
           <div className="mt-10 grid gap-4 md:grid-cols-12">
-            <Reveal className="group md:col-span-8"><Photo variant="aerial" className="aspect-[16/9] rounded-[22px]" /></Reveal>
-            <Reveal delay={0.1} className="group md:col-span-4"><Photo variant="club" className="aspect-[16/9] rounded-[22px] md:aspect-auto md:h-full" /></Reveal>
+            <Reveal className="group md:col-span-8"><Picture name="shadow" alt="Spieler auf dem Sandplatz, von oben fotografiert" focus="40% 60%" sizes="(min-width: 768px) 66vw, 100vw" className="aspect-[16/9] rounded-[22px]" /></Reveal>
+            <Reveal delay={0.1} className="group md:col-span-4"><Picture name="aerial" alt="Sandplatz von oben" focus="50% 55%" sizes="(min-width: 768px) 33vw, 100vw" className="aspect-[16/9] h-full rounded-[22px] md:aspect-auto" /></Reveal>
           </div>
         </div>
       </section>
