@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion'
+import { lockScroll, unlockScroll } from '@/lib/smooth'
+import { Magnetic } from '@/components/ui/Magnetic'
 import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { EASE } from '@/lib/motion'
@@ -27,26 +29,31 @@ export function Wordmark({ light, className }: { light?: boolean; className?: st
 
 export function Navbar({ dark }: { dark?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const { scrollY } = useScroll()
 
+  // Tuck the bar away while reading downwards, bring it back on any upward intent.
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const prev = scrollY.getPrevious() ?? 0
+    setScrolled(y > 24)
+    if (y < 120) setHidden(false)
+    else if (y - prev > 6) setHidden(true)
+    else if (prev - y > 4) setHidden(false)
+  })
+  useEffect(() => { setOpen(false); setHidden(false) }, [pathname])
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  useEffect(() => { setOpen(false) }, [pathname])
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    if (!open) return
+    lockScroll()
+    return () => unlockScroll()
   }, [open])
 
   const onDark = dark && !scrolled && !open
 
   return (
     <>
-      <header className={cn('fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300', scrolled || open ? 'border-b border-line/80 bg-paper/85 backdrop-blur-xl' : 'border-b border-transparent bg-transparent')}>
+      <header className={cn('fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]', scrolled || open ? 'border-b border-line/70 bg-paper/80 backdrop-blur-xl backdrop-saturate-150' : 'border-b border-transparent bg-transparent', hidden && !open && '-translate-y-full')}>
         <div className="container-wide flex h-[68px] items-center justify-between md:h-[76px]">
           <Link to="/" className="pressable rounded-md" aria-label="TC Röttenbach – Startseite">
             <Wordmark light={onDark} />
@@ -74,7 +81,7 @@ export function Navbar({ dark }: { dark?: boolean }) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <div className="hidden md:block"><Button to="/padel/buchen" variant={onDark ? 'light' : 'dark'} size="sm" className="h-10 px-4">Platz buchen</Button></div>
+            <Magnetic className="hidden md:inline-block"><Button to="/padel/buchen" variant={onDark ? 'light' : 'dark'} size="sm" className="h-10 px-4">Platz buchen</Button></Magnetic>
             <button
               onClick={() => setOpen((o) => !o)}
               aria-label={open ? 'Menü schließen' : 'Menü öffnen'}

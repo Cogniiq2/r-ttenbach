@@ -4,6 +4,7 @@ import { PageHero } from '@/components/site/PageHero'
 import { Button } from '@/components/ui/Button'
 import { Photo } from '@/components/ui/Photo'
 import { Reveal } from '@/components/ui/Reveal'
+import { CountUp } from '@/components/ui/CountUp'
 import { Avatar } from '@/components/ui/Avatar'
 import { club, fullAddress } from '@/lib/club'
 
@@ -22,7 +23,7 @@ export function Verein() {
       <section className="section-tight border-y border-line bg-surface">
         <div className="container-x grid gap-10 md:grid-cols-3">
           {[[String(club.members.total), 'Mitglieder'], [String(club.members.adults), 'Erwachsene'], [String(club.members.juniors), 'Jugendliche']].map(([n, l], i) => (
-            <Reveal key={l} delay={i * 0.08}><div className="num text-[56px] font-semibold leading-none tracking-[-0.04em] md:text-[72px]">{n}</div><div className="mt-3 text-[15px] text-muted">{l}</div></Reveal>
+            <Reveal key={l} delay={i * 0.08}><div className="num text-[56px] font-semibold leading-none tracking-[-0.04em] md:text-[72px]"><CountUp value={Number(n)} /></div><div className="mt-3 text-[15px] text-muted">{l}</div></Reveal>
           ))}
           <Reveal delay={0.3} className="text-[12.5px] text-muted-2 md:col-span-3">Mitgliederzahlen laut BTV-Vereinsprofil.</Reveal>
         </div>

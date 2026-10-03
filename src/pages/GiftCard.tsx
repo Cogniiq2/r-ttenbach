@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useState, type ReactNode } from 'react'
+import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { Picture } from '@/components/ui/Picture'
 import { Page } from '@/components/site/Page'
 import { Button } from '@/components/ui/Button'
 import { Input, Textarea } from '@/components/ui/Field'
@@ -9,6 +10,26 @@ import { t } from '@/lib/motion'
 import { useToast } from '@/lib/toast'
 
 const amounts = [25, 50, 100] as const
+
+/** Card that tilts toward a fine pointer and carries a moving light reflection. */
+function TiltCard({ children }: { children: ReactNode }) {
+  const px = useMotionValue(0.5), py = useMotionValue(0.5)
+  const sx = useSpring(px, { stiffness: 180, damping: 20 }), sy = useSpring(py, { stiffness: 180, damping: 20 })
+  const rotY = useTransform(sx, [0, 1], [-7, 7]), rotX = useTransform(sy, [0, 1], [6, -6])
+  const gx = useTransform(sx, [0, 1], ['10%', '90%']), gy = useTransform(sy, [0, 1], ['0%', '100%'])
+  const sheen = useMotionTemplate`radial-gradient(60% 70% at ${gx} ${gy}, rgba(255,255,255,0.22), transparent 60%)`
+  return (
+    <motion.div
+      onPointerMove={(e) => { if (e.pointerType !== 'mouse') return; const r = e.currentTarget.getBoundingClientRect(); px.set((e.clientX - r.left) / r.width); py.set((e.clientY - r.top) / r.height) }}
+      onPointerLeave={() => { px.set(0.5); py.set(0.5) }}
+      style={{ rotateX: rotX, rotateY: rotY, transformPerspective: 1100 }}
+      className="relative aspect-[1.586] overflow-hidden rounded-[22px] bg-ink text-white shadow-[0_30px_80px_rgba(9,20,40,0.35)]"
+    >
+      {children}
+      <motion.div className="pointer-events-none absolute inset-0 mix-blend-soft-light" style={{ background: sheen }} />
+    </motion.div>
+  )
+}
 
 export function GiftCard() {
   const { toast } = useToast()
@@ -50,19 +71,19 @@ export function GiftCard() {
           <div className="lg:sticky lg:top-[110px] lg:col-span-5 lg:col-start-8">
             <Reveal delay={0.15}>
               <div className="eyebrow mb-3">Vorschau</div>
-              <motion.div whileHover={{ rotateX: 2, rotateY: -3 }} transition={t.springSoft} style={{ transformPerspective: 1200 }} className="grain relative aspect-[1.586] overflow-hidden rounded-[20px] bg-ink p-6 text-white shadow-panel md:p-8">
-                <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_100%_0%,rgba(49,92,70,0.9),transparent)]" />
-                <svg viewBox="0 0 400 250" className="absolute -right-10 -bottom-10 w-[260px] opacity-30" fill="none" stroke="white" strokeWidth="1.5"><rect x="20" y="20" width="360" height="210" /><line x1="200" y1="20" x2="200" y2="230" /><line x1="20" y1="125" x2="380" y2="125" /></svg>
-                <div className="relative flex h-full flex-col justify-between">
+              <TiltCard>
+                <div className="absolute inset-0"><Picture name="rackets" alt="" focus="58% 45%" sizes="(min-width: 1024px) 40vw, 100vw" className="h-full w-full" zoom={false} /></div>
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,14,24,0.88)_0%,rgba(9,14,24,0.55)_55%,rgba(9,14,24,0.2)_100%)]" />
+                <div className="relative flex h-full flex-col justify-between p-6 md:p-8">
                   <div className="flex items-start justify-between"><span className="text-[13px] font-semibold tracking-[-0.01em]">TC Röttenbach</span><span className="text-[11px] uppercase tracking-[0.14em] text-white/60">Padel Gutschein</span></div>
                   <div>
                     <motion.div key={value} initial={{ opacity: 0.4, y: 4 }} animate={{ opacity: 1, y: 0 }} className="num text-[52px] font-semibold leading-none tracking-[-0.04em] md:text-[64px]">{value} €</motion.div>
                     <div className="mt-3 truncate text-[14px] text-white/75">{to ? `Für ${to}` : 'Für …'}{from ? ` · von ${from}` : ''}</div>
                     {msg && <div className="mt-1 line-clamp-2 text-[12.5px] italic text-white/55">„{msg}“</div>}
                   </div>
-                  <div className="num flex items-center justify-between text-[11px] text-white/50"><span>GS-2026-XXXX</span><span>Gültig 3 Jahre</span></div>
+                  <div className="num flex items-center justify-between text-[11px] text-white/55"><span>GS-2026-XXXX</span><span>Demo-Gutschein</span></div>
                 </div>
-              </motion.div>
+              </TiltCard>
             </Reveal>
           </div>
         </div>

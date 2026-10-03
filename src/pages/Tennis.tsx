@@ -3,6 +3,7 @@ import { PageHero } from '@/components/site/PageHero'
 import { Button } from '@/components/ui/Button'
 import { Photo, type PhotoVariant } from '@/components/ui/Photo'
 import { Reveal } from '@/components/ui/Reveal'
+import { CountUp } from '@/components/ui/CountUp'
 import { cn } from '@/lib/cn'
 import { club } from '@/lib/club'
 
@@ -40,7 +41,7 @@ export function Tennis() {
       <section className="section-tight border-t border-line">
         <div className="container-x grid gap-10 md:grid-cols-3">
           {[['Tennisplätze', String(club.tennisCourts)], ['Mitglieder', String(club.members.total)], ['Jugendliche', String(club.members.juniors)]].map(([l, n], i) => (
-            <Reveal key={l} delay={i * 0.08}><div className="num text-[56px] font-semibold leading-none tracking-[-0.04em] md:text-[72px]">{n}</div><div className="mt-3 text-[15px] text-muted">{l}</div></Reveal>
+            <Reveal key={l} delay={i * 0.08}><div className="num text-[56px] font-semibold leading-none tracking-[-0.04em] md:text-[72px]"><CountUp value={Number(n)} /></div><div className="mt-3 text-[15px] text-muted">{l}</div></Reveal>
           ))}
         </div>
       </section>

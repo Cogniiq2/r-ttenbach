@@ -45,7 +45,6 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
   }
   body {
     @apply bg-paper text-ink font-sans;
@@ -110,6 +109,12 @@
   .glow-light { filter: drop-shadow(0 0 6px rgba(185, 138, 62, .55)) drop-shadow(0 0 14px rgba(185, 138, 62, .35)); }
   .safe-bottom { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
 
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }

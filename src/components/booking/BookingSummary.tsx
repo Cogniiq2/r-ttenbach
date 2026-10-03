@@ -42,7 +42,7 @@ export function BookingSummary({ day, start, end, previewEnd = null, draft, show
       <div className={cn('mt-5 rounded-[14px] px-4 py-3.5 transition-colors', complete ? (preview ? 'bg-green-soft/60' : 'bg-green-soft') : 'bg-paper')}>
         <motion.div key={day.key} initial={{ opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }} className="text-[13px] text-muted">{day.full}</motion.div>
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div key={complete ? `${start}-${e}` : start !== null ? `s${start}` : 'none'} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.2 }} className="mt-1 flex items-baseline justify-between gap-3">
+          <motion.div key={complete ? 'range' : start !== null ? 'start' : 'none'} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} transition={{ duration: 0.2 }} className="mt-1 flex items-baseline justify-between gap-3">
             {complete ? (
               <><span className="num text-[22px] font-semibold tracking-[-0.02em] text-green-deep">{fmtRange(start!, e!)}</span><span className={cn('num text-[13.5px] font-medium', preview ? 'text-green/70' : 'text-green')}>{fmtDuration(dur)}</span></>
             ) : start !== null ? (

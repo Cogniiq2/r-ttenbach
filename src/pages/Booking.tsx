@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowLeft, ChevronUp, Info, RotateCcw } from 'lucide-react'
 import { Page } from '@/components/site/Page'
+import { Picture } from '@/components/ui/Picture'
+import { lockScroll, scrollToTop, unlockScroll } from '@/lib/smooth'
 import { Button } from '@/components/ui/Button'
 import { eur } from '@/components/ui/AnimatedNumber'
 import { DateSelector } from '@/components/booking/DateSelector'
@@ -27,9 +29,9 @@ function Progress({ step }: { step: Step }) {
   return (
     <ol className="flex items-center gap-5 text-[12.5px] font-medium" aria-label="Fortschritt">
       {['Termin', 'Spieler', 'Bestätigung'].map((l, i) => (
-        <li key={l} className={cn('flex flex-col gap-2 transition-colors', i <= cur ? 'text-ink' : 'text-muted-2')} aria-current={i === cur ? 'step' : undefined}>
-          <span>{l}</span>
-          <span className="h-[2px] w-12 overflow-hidden rounded-full bg-line"><motion.span className="block h-full bg-ink" initial={false} animate={{ scaleX: i < cur ? 1 : i === cur ? 0.5 : 0 }} style={{ originX: 0 }} transition={{ duration: 0.5, ease: EASE }} /></span>
+        <li key={l} className={cn('flex flex-col gap-2 transition-colors duration-300', i <= cur ? 'text-white' : 'text-white/40')} aria-current={i === cur ? 'step' : undefined}>
+          <span className="flex items-center gap-1.5"><span className="num text-white/40">0{i + 1}</span>{l}</span>
+          <span className="h-[2px] w-16 overflow-hidden rounded-full bg-white/15"><motion.span className="block h-full bg-white" initial={false} animate={{ scaleX: i < cur ? 1 : i === cur ? 0.5 : 0 }} style={{ originX: 0 }} transition={{ duration: 0.6, ease: EASE }} /></span>
         </li>
       ))}
     </ol>
@@ -101,9 +103,10 @@ export function Booking() {
 
   const confirm = () => {
     setPay('processing')
-    window.setTimeout(() => { setPay('done'); window.setTimeout(() => { setStep('success'); window.scrollTo({ top: 0 }) }, 500) }, 1900)
+    window.setTimeout(() => { setPay('done'); window.setTimeout(() => { setStep('success'); scrollToTop() }, 500) }, 1900)
   }
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [step])
+  useEffect(() => { scrollToTop(true) }, [step])
+  useEffect(() => { if (!sheet) return; lockScroll(); return () => unlockScroll() }, [sheet])
 
   if (step === 'success' && draft) return <Page><SuccessView draft={draft} day={day} /></Page>
 
@@ -118,32 +121,40 @@ export function Booking() {
   )
 
   return (
-    <Page className="bg-paper pb-36 pt-[68px] md:pt-[76px]">
-      <motion.div className="pointer-events-none fixed inset-0 z-[5] bg-ink" initial={false} animate={{ opacity: pay === 'done' ? 1 : 0 }} transition={{ duration: 0.6, ease: EASE }} />
-      <div className="container-wide">
-        <div className="flex flex-col gap-8 pt-8 md:flex-row md:items-end md:justify-between md:pt-12">
+    <Page className="bg-paper pb-36">
+      <motion.div className="pointer-events-none fixed inset-0 z-[60] bg-ink" initial={false} animate={{ opacity: pay === 'done' ? 1 : 0 }} transition={{ duration: 0.6, ease: EASE }} />
+      {/* Cinematic header */}
+      <header className="relative isolate overflow-hidden bg-ink text-white">
+        <motion.div initial={{ scale: 1.06 }} animate={{ scale: 1 }} transition={{ duration: 1.8, ease: EASE }} className="absolute inset-0">
+          <Picture name="flatlay" alt="" priority focus="62% 40%" className="h-full w-full" zoom={false} />
+        </motion.div>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,12,18,0.88)_0%,rgba(9,12,18,0.6)_50%,rgba(9,12,18,0.25)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
+        <div className="container-wide relative flex flex-col gap-6 pb-7 pt-[92px] md:flex-row md:items-end md:justify-between md:gap-8 md:pb-14 md:pt-[136px]">
           <div>
-            <button onClick={() => (step === 'select' ? navigate(-1) : setStep(step === 'checkout' ? 'players' : 'select'))} className="pressable group mb-6 inline-flex items-center gap-1.5 text-[13.5px] font-medium text-muted hover:text-ink">
+            <button onClick={() => (step === 'select' ? navigate(-1) : setStep(step === 'checkout' ? 'players' : 'select'))} className="pressable group mb-4 inline-flex md:mb-6 items-center gap-1.5 text-[13.5px] font-medium text-white/65 hover:text-white">
               <ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" /> {step === 'select' ? 'Zurück' : step === 'players' ? 'Termin ändern' : 'Spieler ändern'}
             </button>
             <AnimatePresence mode="wait" initial={false}>
-              <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.3, ease: EASE }}>
+              <motion.div key={step} initial={{ opacity: 0, y: 12, filter: 'blur(6px)' }} animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }} exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }} transition={{ duration: 0.42, ease: EASE }}>
                 <h1 className="display-md">{step === 'select' ? 'Wann möchtest du spielen?' : step === 'players' ? 'Wer spielt?' : 'Fast geschafft.'}</h1>
-                <p className="lede mt-3">{step === 'select' ? 'Tag wählen, Startzeit antippen, Endzeit antippen.' : step === 'players' ? 'Mitglieder werden automatisch erkannt und zahlen weniger.' : 'Prüfe deine Buchung und bestätige die Zahlung.'}</p>
+                <p className="mt-2 text-[16px] text-white/70 md:mt-3 md:text-[19px]">{step === 'select' ? 'Tag wählen, Startzeit antippen, Endzeit antippen.' : step === 'players' ? 'Mitglieder werden automatisch erkannt und zahlen weniger.' : 'Prüfe deine Buchung und bestätige die Zahlung.'}</p>
               </motion.div>
             </AnimatePresence>
           </div>
           <Progress step={step} />
         </div>
+      </header>
+      <div className="container-wide">
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-12 lg:gap-12">
+        <div className="mt-7 grid gap-8 md:mt-12 lg:grid-cols-12 lg:gap-12">
           <div className="min-w-0 lg:col-span-7 xl:col-span-8">
             <AnimatePresence mode="wait">
               {step === 'select' && (
                 <motion.div key="select" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={t.base}>
                   <DateSelector value={dayKey} onChange={changeDay} />
 
-                  <div className="mt-10 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-4">
+                  <div className="mt-7 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-4 md:mt-10">
                     <div>
                       <div className="flex items-center gap-2.5"><h2 className="text-[19px] font-semibold tracking-[-0.015em]">Padel Court 01</h2><span className="text-[13px] text-muted">Sportpark Röttenbach</span></div>
                       <div className="mt-1 text-[13.5px] text-muted">{day.full} · <span className="num">{loading ? '…' : `${fmtDuration(free * SLOT_MINUTES)} frei`}</span></div>
@@ -171,7 +182,7 @@ export function Booking() {
                     )}
                   </AnimatePresence>
 
-                  <div className="relative mt-8 min-h-[280px]">
+                  <div className="relative mt-4 min-h-[200px] md:mt-8">
                     <AnimatePresence mode="wait" initial={false}>
                       {loading ? (
                         <motion.div key="sk" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="space-y-6 px-[22px]">{[0, 1].map((i) => <div key={i}><div className="skeleton h-9 rounded-[8px]" /><div className="mt-3 flex justify-between">{Array.from({ length: 8 }).map((_, k) => <span key={k} className="skeleton h-3 w-8" />)}</div></div>)}</motion.div>
@@ -217,7 +228,7 @@ export function Booking() {
             </AnimatePresence>
           </div>
 
-          <aside className="hidden lg:col-span-5 lg:block xl:col-span-4"><div className="sticky top-[100px]">{summary()}</div></aside>
+          <aside className="hidden lg:col-span-5 lg:block xl:col-span-4"><div className="sticky top-[96px]">{summary()}</div></aside>
         </div>
       </div>
 
@@ -243,7 +254,7 @@ export function Booking() {
         {sheet && (
           <motion.div className="fixed inset-0 z-50 flex items-end lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setSheet(false)} />
-            <motion.div drag="y" dragConstraints={{ top: 0 }} dragElastic={0.08} onDragEnd={(_, i) => i.offset.y > 80 && setSheet(false)} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={t.springSoft} className="relative max-h-[88dvh] w-full overflow-y-auto rounded-t-[22px] bg-white p-6 pt-3 shadow-sheet safe-bottom">
+            <motion.div data-lenis-prevent drag="y" dragConstraints={{ top: 0 }} dragElastic={0.08} onDragEnd={(_, i) => i.offset.y > 80 && setSheet(false)} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={t.springSoft} className="relative max-h-[88dvh] w-full overflow-y-auto rounded-t-[22px] bg-white p-6 pt-3 shadow-sheet safe-bottom">
               <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-line-2" />
               {summary(true)}
             </motion.div>

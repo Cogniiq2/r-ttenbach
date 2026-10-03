@@ -4,15 +4,15 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import { EASE, t } from '@/lib/motion'
+import { lockScroll, unlockScroll } from '@/lib/smooth'
 
 export function Modal({ open, onClose, children, className, side }: { open: boolean; onClose: () => void; children: ReactNode; className?: string; side?: boolean }) {
   useEffect(() => {
     if (!open) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    lockScroll()
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', onKey)
-    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
+    return () => { unlockScroll(); window.removeEventListener('keydown', onKey) }
   }, [open, onClose])
 
   return createPortal(
@@ -23,13 +23,14 @@ export function Modal({ open, onClose, children, className, side }: { open: bool
           <motion.div
             role="dialog"
             aria-modal
+            data-lenis-prevent
             initial={side ? { x: 40, opacity: 0 } : { y: 24, opacity: 0, scale: 0.985 }}
             animate={side ? { x: 0, opacity: 1 } : { y: 0, opacity: 1, scale: 1 }}
             exit={side ? { x: 24, opacity: 0, transition: { duration: 0.2, ease: EASE } } : { y: 12, opacity: 0, scale: 0.99, transition: { duration: 0.18, ease: EASE } }}
             transition={t.springSoft}
             className={cn(
               'relative z-10 w-full bg-surface shadow-panel',
-              side ? 'h-full max-w-[460px] overflow-y-auto' : 'max-h-[92dvh] overflow-y-auto rounded-t-[22px] sm:max-w-[560px] sm:rounded-[20px]',
+              side ? 'h-full max-w-[460px] overflow-y-auto' : 'max-h-[92dvh] overflow-y-auto overscroll-contain rounded-t-[22px] sm:max-w-[560px] sm:rounded-[20px]',
               className,
             )}
           >

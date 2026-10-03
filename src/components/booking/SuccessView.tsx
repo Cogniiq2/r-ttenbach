@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, CalendarPlus, Check, Lightbulb, Navigation, Settings2, Share2 } from 'lucide-react'
 import { Avatar } from '@/components/ui/Avatar'
+import { Picture } from '@/components/ui/Picture'
 import { AnimatedCheck } from '@/components/ui/AnimatedCheck'
 import { cn } from '@/lib/cn'
 import { EASE } from '@/lib/motion'
@@ -25,8 +26,12 @@ export function SuccessView({ draft, day }: { draft: BookingDraft; day: DayOptio
     { icon: <Settings2 size={17} />, label: 'Buchung verwalten', to: `/buchung/${BOOKING_ID}` },
   ]
   return (
-    <div className="relative min-h-dvh bg-ink text-white">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.6 }} className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(49,92,70,0.5),transparent)]" />
+    <div className="relative isolate min-h-dvh overflow-hidden bg-ink text-white">
+      <motion.div initial={{ opacity: 0, scale: 1.08 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 2.4, ease: EASE }} className="absolute inset-0">
+        <Picture name="duo" alt="Zwei Spieler klatschen sich nach dem Match ab" priority cover focus="58% 35%" className="h-full w-full" zoom={false} />
+      </motion.div>
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,12,12,0.94)_0%,rgba(10,12,12,0.82)_42%,rgba(10,12,12,0.35)_100%)] max-lg:bg-[linear-gradient(180deg,rgba(10,12,12,0.55)_0%,rgba(10,12,12,0.9)_45%,rgba(10,12,12,0.97)_100%)]" />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.6 }} className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_20%_0%,rgba(49,92,70,0.35),transparent)]" />
       <div className="container-x relative grid min-h-dvh gap-14 py-28 lg:grid-cols-12 lg:items-center lg:py-32">
         <div className="lg:col-span-7">
           <motion.div {...item(0.1)} className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-full bg-green"><AnimatedCheck size={18} delay={0.35} strokeWidth={3} /></span><span className="text-[11.5px] font-medium uppercase tracking-[0.16em] text-white/50">Match confirmed</span></motion.div>
@@ -48,7 +53,7 @@ export function SuccessView({ draft, day }: { draft: BookingDraft; day: DayOptio
             {draft.floodlight ? <span>Flutlicht automatisch <span className="num font-medium text-white">{fl.on} – {fl.off} Uhr</span>. Fünf Minuten vor Spielbeginn an, fünf Minuten nach Spielende aus.</span> : <span>Flutlicht nicht gebucht. Du kannst es bis Spielbeginn ergänzen.</span>}
           </motion.div>
         </div>
-        <motion.div {...item(0.9)} className="lg:col-span-4 lg:col-start-9">
+        <motion.div {...item(0.9)} className="rounded-[22px] border border-white/10 bg-black/35 p-6 backdrop-blur-xl lg:col-span-4 lg:col-start-9">
           <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-white/40">Aktionen</div>
           <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
             {actions.map((a) => {
